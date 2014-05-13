@@ -80,7 +80,7 @@
 alert(str1.slice(<span class="number">3</span>));<span class="comment">//不传第二个参数时默认为字符串长度结果：lo world</span>
 alert(str1.slice(<span class="number">3</span>,<span class="number">7</span>));<span class="comment">//lo w</span>
 alert(str1.slice(-<span class="number">3</span>));<span class="comment">//传入负值与字符串长度相加结果：rld</span>
-alert(str1.slice(-<span class="number">3</span>,-<span class="number">7</span>));<span class="comment">//结果:o wo</span>
+alert(str1.slice(<span class="number">3</span>,-<span class="number">7</span>));<span class="comment">//结果:l</span>
 </pre></td></tr></table></figure>
 
 <p>(2) substring()的第二个参数指定需要截取的位置的后面的字符索引。如果没有第二个参数则字符串长度作为结束位置。当传入负值时，会将所有负值转换成0.</p>
@@ -93,7 +93,7 @@ alert(str1.slice(-<span class="number">3</span>,-<span class="number">7</span>))
 alert(str1.substring(<span class="number">3</span>));<span class="comment">//不传第二个参数时默认为字符串长度结果：lo world</span>
 alert(str1.substring(<span class="number">3</span>,<span class="number">7</span>));<span class="comment">//lo w</span>
 alert(str1.substring(-<span class="number">3</span>));<span class="comment">//第一个参数为负值转换为0第二个默认为字符串长度，结果：hello world</span>
-alert（str1.substring(-<span class="number">3</span>,-<span class="number">7</span>)）<span class="comment">//全部转换为0，结果：""</span>
+alert(str1.substring(<span class="number">3</span>,-<span class="number">7</span>))<span class="comment">//结果：hel</span>
 </pre></td></tr></table></figure>
 
 <p>(3)substr()的第二个参数时指定的截取长度，如果没有第二个参数则字符串长度作为结束位置。当传入负值时，会将第一个参数加上字符串的长度，而第二个参数转换为0.</p>
@@ -106,10 +106,10 @@ alert（str1.substring(-<span class="number">3</span>,-<span class="number">7</s
 alert(str1.substr(<span class="number">3</span>));<span class="comment">//不传第二个参数时默认为字符串长度结果：lo world</span>
 alert(str1.substr(<span class="number">3</span>,<span class="number">7</span>))<span class="comment">//结果：lo worl</span>
 alert(str1.substr(-<span class="number">3</span>))<span class="comment">//结果//rld</span>
-alert(str1.substr(-<span class="number">3</span>,-<span class="number">7</span>))<span class="comment">//结果：""</span>
+alert(str1.substr(<span class="number">3</span>,-<span class="number">7</span>))<span class="comment">//结果：""</span>
 </pre></td></tr></table></figure>
 
-<p>3.indexOf()、lastIndexOf()<br>这两个方法都接受两个参数，第一个参数时要确定位置的子字符串，第二个参数可选，是开始搜索的位置。方法，返回该子字符串的位置，如果未找到，则返回-1。indexOf()是从开头开始搜索，而lastIndexOf()则是从末尾向前搜索。</p>
+<p>4.indexOf()、lastIndexOf()<br>这两个方法都接受两个参数，第一个参数时要确定位置的子字符串，第二个参数可选，是开始搜索的位置。方法，返回该子字符串的位置，如果未找到，则返回-1。indexOf()是从开头开始搜索，而lastIndexOf()则是从末尾向前搜索。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -124,7 +124,7 @@ alert(str1.indexOf(<span class="string">"o"</span>,<span class="number">6</span>
 alert(str1.lastIndexOf(<span class="string">"o"</span>,<span class="number">6</span>));<span class="comment">//4</span>
 </pre></td></tr></table></figure>
 
-<p>4.trim()<br>trim()用于去除字符串两边的空格。<br>5.toLowerCase()、toUpperCase()<br>这两种方法用于转换字符串的大小写。直接看例子：</p>
+<p>5.trim()<br>trim()用于去除字符串两边的空格。<br>6.toLowerCase()、toUpperCase()<br>这两种方法用于转换字符串的大小写。直接看例子：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -135,7 +135,7 @@ alert(str1.toUpperCase());<span class="comment">//HELLO WORLD</span>
 alert(str2.toLowerCase());<span class="comment">//hello world</span>
 </pre></td></tr></table></figure>
 
-<p>此外还有toLocaleLowerCase(),和toLocaleUpperCase()方法，与这两种方法类似。<br>6.match()<br>match()方法类似于正则中的exec(),接受一个参数，参数为正则表达式或者字符串。返回一个数组。数组内容与调用exec()方法一致。</p>
+<p>此外还有toLocaleLowerCase(),和toLocaleUpperCase()方法，与这两种方法类似。<br>7.match()<br>match()方法类似于正则中的exec(),接受一个参数，参数为正则表达式或者字符串。返回一个数组。数组内容与调用exec()方法一致。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -152,7 +152,7 @@ alert(str2.toLowerCase());<span class="comment">//hello world</span>
         alert(pattern.lastIndex);    <span class="comment">//0</span>
 </pre></td></tr></table></figure>
 
-<p>7.search()<br>search()方法与match()方法参数一致，返回第一个匹配项的索引，如果没有匹配到则返回-1，始终从开头向后查找。</p>
+<p>8.search()<br>search()方法与match()方法参数一致，返回第一个匹配项的索引，如果没有匹配到则返回-1，始终从开头向后查找。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -161,7 +161,7 @@ alert(str2.toLowerCase());<span class="comment">//hello world</span>
         alert(pos);   <span class="comment">//1</span>
 </pre></td></tr></table></figure>
 
-<p>8.replace()<br>replace()方法接受两个参数，第一个参数可以是一个正则对象或者一个字符串，第二个参数可以使一个字符串或者一个函数。如果第一个参数为字符串，则返回由第二个参数替换调用字符串中子字符串的字符串。且只会替换第一个。若想全局替换，则需要使用正则，且要指定全局。</p>
+<p>9.replace()<br>replace()方法接受两个参数，第一个参数可以是一个正则对象或者一个字符串，第二个参数可以使一个字符串或者一个函数。如果第一个参数为字符串，则返回由第二个参数替换调用字符串中子字符串的字符串。且只会替换第一个。若想全局替换，则需要使用正则，且要指定全局。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
 2
 3
@@ -176,7 +176,7 @@ alert(str2.toLowerCase());<span class="comment">//hello world</span>
         alert(result);    <span class="comment">//"cond, bond, sond, fond"</span>
 </pre></td></tr></table></figure>
 
-<p>9.split()<br>这个方法会根据一个分隔符将一个字符串分割成多个子字符串并将结果放进一个数组。方法也可以接受第二个参数用来指定结果数组的大小。</p>
+<p>10.split()<br>这个方法会根据一个分隔符将一个字符串分割成多个子字符串并将结果放进一个数组。方法也可以接受第二个参数用来指定结果数组的大小。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
 2
 3
