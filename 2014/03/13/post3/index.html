@@ -1,0 +1,313 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>javascript中对字符串的操作总结 | China JS</title>
+  <meta name="author" content="王陟诚">
+  
+  <meta name="description" content="javascript">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="javascript中对字符串的操作总结"/>
+  <meta property="og:site_name" content="China JS"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="China JS" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">China JS</a></h1>
+  <h2><a href="/">blog</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">首页</a></li>
+    
+      <li><a href="/archives">存档</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-03-13T07:42:06.000Z"><a href="/2014/03/13/post3/">3月 13 2014</a></time>
+      
+      
+  
+    <h1 class="title">javascript中对字符串的操作总结</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="javascript中对字符串的操作总结">javascript中对字符串的操作总结</h2>
+<p>没听过一句话吗？程序员的世界，不处理字符串就是处理数组。这是群里的一位前辈和我说的，显然这和我之前理解的DOM是javascript的核心的不同的，看了几个面试题的内容，感觉前辈说的话非常的有道理，因此总结下，javascript中对字符串的操作。</p>
+<h3 id="String类型">String类型</h3>
+<p>首先字符串类型是基本类型，但是在这里我们所说的是字符串的对象包装类型。因为只有引用类型才会有属性和方法。实际上每读取一个基本类型的同时都会创建一个对应的基本包装类型，从而让我们能够调用一些方法来操作数据。<br>1.charAt() 和 charCodeAt()<br>两个方法都接受一个索引参数，charAt()返回对应索引的字符，charCodeAt()返回对应字符的字符编码。<br>2.concat()<br>用于将一个或多个字符串拼接起来，返回拼接得到的新字符串。<br>eg:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="keyword">var</span> str1 = <span class="string">'111'</span>;
+<span class="keyword">var</span> result = str1.concat(<span class="string">'abcd'</span>,<span class="string">'dsas'</span>);<span class="comment">//结果111abcddsas</span>
+</pre></td></tr></table></figure>
+
+<p>3.slice()、substr()、substring()<br>这三个方法都是对字符串的截取。且都接受一个或两个参数。他们的第一个参数都表示起始位置。<br>(1) slice()的第二个参数指定需要截取的位置的后面的字符索引。如果没有第二个参数则字符串长度作为结束位置。当传入负值时，会将负值与字符串的长度相加。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">var</span> str1 = <span class="string">"hello world"</span>
+alert(str1.slice(<span class="number">3</span>));<span class="comment">//不传第二个参数时默认为字符串长度结果：lo world</span>
+alert(str1.slice(<span class="number">3</span>,<span class="number">7</span>));<span class="comment">//lo w</span>
+alert(str1.slice(-<span class="number">3</span>));<span class="comment">//传入负值与字符串长度相加结果：rld</span>
+alert(str1.slice(-<span class="number">3</span>,-<span class="number">7</span>));<span class="comment">//结果:o wo</span>
+</pre></td></tr></table></figure>
+
+<p>(2) substring()的第二个参数指定需要截取的位置的后面的字符索引。如果没有第二个参数则字符串长度作为结束位置。当传入负值时，会将所有负值转换成0.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">var</span> str1 = <span class="string">"hello world"</span>
+alert(str1.substring(<span class="number">3</span>));<span class="comment">//不传第二个参数时默认为字符串长度结果：lo world</span>
+alert(str1.substring(<span class="number">3</span>,<span class="number">7</span>));<span class="comment">//lo w</span>
+alert(str1.substring(-<span class="number">3</span>));<span class="comment">//第一个参数为负值转换为0第二个默认为字符串长度，结果：hello world</span>
+alert（str1.substring(-<span class="number">3</span>,-<span class="number">7</span>)）<span class="comment">//全部转换为0，结果：""</span>
+</pre></td></tr></table></figure>
+
+<p>(3)substr()的第二个参数时指定的截取长度，如果没有第二个参数则字符串长度作为结束位置。当传入负值时，会将第一个参数加上字符串的长度，而第二个参数转换为0.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">var</span> str1 = <span class="string">"hello world"</span>
+alert(str1.substr(<span class="number">3</span>));<span class="comment">//不传第二个参数时默认为字符串长度结果：lo world</span>
+alert(str1.substr(<span class="number">3</span>,<span class="number">7</span>))<span class="comment">//结果：lo worl</span>
+alert(str1.substr(-<span class="number">3</span>))<span class="comment">//结果//rld</span>
+alert(str1.substr(-<span class="number">3</span>,-<span class="number">7</span>))<span class="comment">//结果：""</span>
+</pre></td></tr></table></figure>
+
+<p>3.indexOf()、lastIndexOf()<br>这两个方法都接受两个参数，第一个参数时要确定位置的子字符串，第二个参数可选，是开始搜索的位置。方法，返回该子字符串的位置，如果未找到，则返回-1。indexOf()是从开头开始搜索，而lastIndexOf()则是从末尾向前搜索。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="keyword">var</span> str1 = <span class="string">"hello world"</span>;
+alert(str1.indexOf(<span class="string">"o"</span>));<span class="comment">//4</span>
+alert(str1.lastIndexOf(<span class="string">"0"</span>));<span class="comment">//7</span>
+alert(str1.indexOf(<span class="string">"a"</span>))<span class="comment">//-1</span>
+alert(str1.indexOf(<span class="string">"o"</span>,<span class="number">6</span>));<span class="comment">//7</span>
+alert(str1.lastIndexOf(<span class="string">"o"</span>,<span class="number">6</span>));<span class="comment">//4</span>
+</pre></td></tr></table></figure>
+
+<p>4.trim()<br>trim()用于去除字符串两边的空格。<br>5.toLowerCase()、toUpperCase()<br>这两种方法用于转换字符串的大小写。直接看例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="keyword">var</span> str1 = <span class="string">"hello world"</span>
+<span class="keyword">var</span> str2 = <span class="string">"HELLO WORLD"</span>
+alert(str1.toUpperCase());<span class="comment">//HELLO WORLD</span>
+alert(str2.toLowerCase());<span class="comment">//hello world</span>
+</pre></td></tr></table></figure>
+
+<p>此外还有toLocaleLowerCase(),和toLocaleUpperCase()方法，与这两种方法类似。<br>6.match()<br>match()方法类似于正则中的exec(),接受一个参数，参数为正则表达式或者字符串。返回一个数组。数组内容与调用exec()方法一致。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre>  <span class="keyword">var</span> text = <span class="string">"cat, bat, sat, fat"</span>; 
+        <span class="keyword">var</span> pattern = <span class="regexp">/.at/</span>;
+        
+        <span class="keyword">var</span> matches = text.match(pattern);        
+        alert(matches.index);        <span class="comment">//0</span>
+        alert(matches[<span class="number">0</span>]);           <span class="comment">//"cat"</span>
+        alert(pattern.lastIndex);    <span class="comment">//0</span>
+</pre></td></tr></table></figure>
+
+<p>7.search()<br>search()方法与match()方法参数一致，返回第一个匹配项的索引，如果没有匹配到则返回-1，始终从开头向后查找。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="keyword">var</span> text = <span class="string">"cat, bat, sat, fat"</span>; 
+<span class="keyword">var</span> pos = text.search(<span class="regexp">/at/</span>);
+        alert(pos);   <span class="comment">//1</span>
+</pre></td></tr></table></figure>
+
+<p>8.replace()<br>replace()方法接受两个参数，第一个参数可以是一个正则对象或者一个字符串，第二个参数可以使一个字符串或者一个函数。如果第一个参数为字符串，则返回由第二个参数替换调用字符串中子字符串的字符串。且只会替换第一个。若想全局替换，则需要使用正则，且要指定全局。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="keyword">var</span> text = <span class="string">"cat, bat, sat, fat"</span>; 
+<span class="keyword">var</span> result = text.replace(<span class="string">"at"</span>, <span class="string">"ond"</span>);
+        alert(result);    <span class="comment">//"cond, bat, sat, fat"</span>
+
+        result = text.replace(<span class="regexp">/at/g</span>, <span class="string">"ond"</span>);
+        alert(result);    <span class="comment">//"cond, bond, sond, fond"</span>
+</pre></td></tr></table></figure>
+
+<p>9.split()<br>这个方法会根据一个分隔符将一个字符串分割成多个子字符串并将结果放进一个数组。方法也可以接受第二个参数用来指定结果数组的大小。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="keyword">var</span> colorText = <span class="string">"red,blue,green,yellow"</span>;
+        <span class="keyword">var</span> colors1 = colorText.split(<span class="string">","</span>);      <span class="comment">//["red", "blue", "green", "yellow"]</span>
+        <span class="keyword">var</span> colors2 = colorText.split(<span class="string">","</span>, <span class="number">2</span>);   <span class="comment">//["red", "blue"]</span>
+        <span class="keyword">var</span> colors3 = colorText.split(<span class="regexp">/[^\,]+/</span>); <span class="comment">//["", ",", ",", ",", ""]</span>
+</pre></td></tr></table></figure>
+
+<p>此外还有formCharCode()方法用于将字符编码转换为字符串。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>alert(<span class="built_in">String</span>.fromCharCode(<span class="number">104</span>, <span class="number">101</span>, <span class="number">108</span>, <span class="number">108</span>, <span class="number">111</span>)); <span class="comment">//"hello"</span>
+</pre></td></tr></table></figure>
+
+<p>以上为部分字符串方法。总结于《javascript高级程序设计》</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/javascript/">javascript</a>, <a href="/tags/前端/">前端</a>
+  </div>
+
+        <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"></a><a href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"��������","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">留言</h1>
+
+  
+      <div id="fb-root"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=123456789012345";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<div class="fb-comments" data-href="http:chinajs.net/2014/03/13/post3/" data-num-posts="5" data-width="840" data-colorscheme="light"></div>
+      
+  
+	<div class="ds-thread" data-thread-key="�뽫�˴��滻������������վ���е�ID" data-title="���滻�����µı���" data-url="���滻�����µ���ַ"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"chinajs"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:http:chinajs.net">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/blog/">blog</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/javascript/">javascript</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript，blog/">javascript，blog</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript，前端/">javascript，前端</a><small>1</small></li>
+  
+    <li><a href="/tags/前端/">前端</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1658280575&verifier=8d4c0fdc&dpc=1"></iframe>
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2014 王陟诚
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
