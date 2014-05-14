@@ -1,0 +1,369 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>javascript中数组对象的方法汇总 | China JS</title>
+  <meta name="author" content="萝卜先生">
+  
+  <meta name="description" content="javascript">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="javascript中数组对象的方法汇总"/>
+  <meta property="og:site_name" content="China JS"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="China JS" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">China JS</a></h1>
+  <h2><a href="/">blog</a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">首页</a></li>
+    
+      <li><a href="/archives">存档</a></li>
+    
+<li> <a href="/atom.xml">RSS</a> </li>
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-03-14T03:26:06.000Z"><a href="/2014/03/14/post4/">3月 14 2014</a></time>
+      
+      
+  
+    <h1 class="title">javascript中数组对象的方法汇总</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="javascript中数组对象的方法汇总">javascript中数组对象的方法汇总</h2>
+<hr>
+<p>上次我们说了对字符串的操作方法，现在继续总结数组的方法。<br>1.Array.isArray()<br>此方法为检查对象是否为数组对象。接受一个参数，判断参数是否为数组，若为数组，则返回true,反之返回false。<br>2.toString(),toLocaleString()<br>这两个方法通常都返回数组的字符串形式，其中toString()会对每一项调用toString()方法，而toLocaleString()则会对每一项调用toLocaleString()方法。两种方法都返回数组中每个值的字符串形式拼接成的用逗号分隔的字符串。<br>3.valueOf()<br>方法依旧返回原来的数组。<br>4.push(),pop()<br>这两个方法被称为栈方法，原因是LIFO（last-in-first-out）,其中push()方法接受任意数量参数，并会将参数逐个推入数组的末尾，并返回更改后数组的长度。pop()方法则是在数组的末尾删除最后一项，并返回移除的项。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre>    <span class="keyword">var</span> colors = <span class="keyword">new</span> <span class="built_in">Array</span>();                    <span class="comment">//create an array</span>
+    <span class="keyword">var</span> count = colors.push(<span class="string">"red"</span>, <span class="string">"green"</span>);      <span class="comment">//push two items</span>
+        alert(count);  <span class="comment">//2</span>
+        
+    count = colors.push(<span class="string">"black"</span>);        <span class="comment">//push another item on</span>
+        alert(count);  <span class="comment">//3</span>
+        
+     <span class="keyword">var</span> item = colors.pop();           <span class="comment">//get the last item</span>
+        alert(item);   <span class="comment">//"black"</span>
+        alert(colors.length);  <span class="comment">//2</span>
+</pre></td></tr></table></figure>
+
+<p>5.unshift(),shift()<br>这两个方法正好与push()和pop()方法相反，操作的是数组的前端。其中unshift()方法接受任意数量参数，并会将参数逐个推入数组的末尾，并返回更改后数组的长度。shift()方法则是在数组的末尾删除最后一项，并返回移除的项。<br>6.reverse()<br>调用这个方法，会将数组的顺序翻转过来。例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>  <span class="keyword">var</span> values = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
+        values.reverse();
+        alert(values);       <span class="comment">//5,4,3,2,1</span>
+</pre></td></tr></table></figure>
+
+<p>7.sort()<br>这个方法同样也是一个排序方法，在不接受参数的情况下默认按照字符串的升序排列。注意，这里无论数组元素是什么类型的，都会按照字符串的形式来排序。sort()方法也接受一个函数来作为参数，这个函数被称为比较函数。例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="code"><pre> <span class="keyword">var</span> values = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">15</span>];
+        values.sort();
+        alert(values);    <span class="comment">//0,1,10,15,5</span>
+          <span class="function"><span class="keyword">function</span> <span class="title">compare</span><span class="params">(value1, value2)</span> {</span>
+            <span class="keyword">if</span> (value1 &lt; value2) {
+                <span class="keyword">return</span> -<span class="number">1</span>;
+            } <span class="keyword">else</span> <span class="keyword">if</span> (value1 &gt; value2) {
+                <span class="keyword">return</span> <span class="number">1</span>;
+            } <span class="keyword">else</span> {
+                <span class="keyword">return</span> <span class="number">0</span>;
+            }
+        }
+        
+        <span class="keyword">var</span> values = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">15</span>];
+        values.sort(compare);
+        alert(values);    <span class="comment">//0,1,5,10,15</span>
+</pre></td></tr></table></figure>
+
+<p>8.concat()<br>这个方法会建立一个新的数组副本，会将参数中的每一项添加到调用该方法的数组副本中，若参数为数组则会将数组中的每一项添加到副本中，返回新的数组副本，同时并不对原有的数组修改。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>   <span class="keyword">var</span> colors = [<span class="string">"red"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>];
+        <span class="keyword">var</span> colors2 = colors.concat(<span class="string">"yellow"</span>, [<span class="string">"black"</span>, <span class="string">"brown"</span>]);
+        
+        alert(colors);     <span class="comment">//red,green,blue        </span>
+        alert(colors2);    <span class="comment">//red,green,blue,yellow,black,brown</span>
+</pre></td></tr></table></figure>
+
+<p>9.slice()<br>slice()方法是对数组的截取，接受两个参数第二个参数可选，返回截取的数组片段，并不会对原有数组产生影响。需要注意的是，第二个参数时需要截取位置的后一个位置。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre>  <span class="keyword">var</span> colors = [<span class="string">"red"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>, <span class="string">"yellow"</span>, <span class="string">"purple"</span>];
+        <span class="keyword">var</span> colors2 = colors.slice(<span class="number">1</span>);
+        <span class="keyword">var</span> colors3 = colors.slice(<span class="number">1</span>,<span class="number">4</span>);
+        
+        alert(colors2);   <span class="comment">//green,blue,yellow,purple</span>
+        alert(colors3);   <span class="comment">//green,blue,yellow</span>
+</pre></td></tr></table></figure>
+
+<p>10.splice()<br>这个方法有很多种用法首先第一种：<br>删除：<br>指定两个参数，需要删除的第一项的位置和要删除的项数。返回移除的项</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="keyword">var</span> colors = [<span class="string">"yellow"</span>,<span class="string">"red"</span>,<span class="string">"blue"</span>];
+<span class="keyword">var</span> removed = colors.splice(<span class="number">0</span>,<span class="number">1</span>);
+alert(colors);<span class="comment">//red,blue</span>
+alert(removed);<span class="comment">//yellow</span>
+</pre></td></tr></table></figure>
+
+<p>插入：指定任意多参数，第一个参数为要插入的位置，第二个参数为0（删除0项），接下来可以使任意多个要插入的项。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="keyword">var</span> colors = [<span class="string">"yellow"</span>,<span class="string">"red"</span>,<span class="string">"blue"</span>];
+colors.splice(<span class="number">1</span>,<span class="number">0</span>,<span class="string">"red"</span>,<span class="string">"black"</span>);
+alert(colors)<span class="comment">//yellow,red,blue,red,black</span>
+</pre></td></tr></table></figure>
+
+<p>替换：同样指定任意多参数，起始位置，删除数目，添加项。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre> removed = colors.splice(<span class="number">1</span>, <span class="number">1</span>, <span class="string">"red"</span>, <span class="string">"purple"</span>);
+        alert(colors);     <span class="comment">//green,red,purple,orange,blue</span>
+        alert(removed);    <span class="comment">//yellow - one item array</span>
+</pre></td></tr></table></figure>
+
+<p>11.indexOf()，lastIndexOf()<br>两个方法都接受两个参数，要查找的项和开始查找的位置（可选），返回所查找的位置，若没有找到则返回-1.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre>   <span class="keyword">var</span> numbers = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>];
+        
+        alert(numbers.indexOf(<span class="number">4</span>));        <span class="comment">//3</span>
+        alert(numbers.lastIndexOf(<span class="number">4</span>));    <span class="comment">//5</span>
+        
+        alert(numbers.indexOf(<span class="number">4</span>, <span class="number">4</span>));     <span class="comment">//5</span>
+        alert(numbers.lastIndexOf(<span class="number">4</span>, <span class="number">4</span>)); <span class="comment">//3       </span>
+
+        <span class="keyword">var</span> person = { name: <span class="string">"Nicholas"</span> };
+        <span class="keyword">var</span> people = [{ name: <span class="string">"Nicholas"</span> }];
+        <span class="keyword">var</span> morePeople = [person];
+        
+        alert(people.indexOf(person));     <span class="comment">//-1</span>
+        alert(morePeople.indexOf(person)); <span class="comment">//0</span>
+</pre></td></tr></table></figure>
+
+<p>12.every(),filter(),forEach(),map(),some()<br>这几种方法都是迭代方法<br>every()：对数组中的每一项运行给定函数，如果该函数对每一项都返回true，则返回true。<br>filter()：对数组中的每一项运行给定函数，返回该函数会返回true的项组成的数组。<br>forEach()：对数组中的每一项运行给定函数。这个方法没有返回值。<br>map()：对数组中的每一项运行给定函数，返回每次函数调用的结果组成的数组。<br>some()：对数组中的每一项运行给定函数，如果该函数对任一项返回true，则返回true。<br>以上方法都不会修改数组中的包含的值。<br>13.reduce(),reduceRight()<br>这两个方法都会迭代数组的所有项，然后构建一个最终返回的值。其中，reduce()方法从数组的第一项开始，逐个遍历到最后。而reduceRight()则从数组的最后一项开始，向前遍历到第一项。参数为一个函数，用于处理数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="keyword">var</span> values = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]; 
+<span class="keyword">var</span> sum = values.reduce(<span class="function"><span class="keyword">function</span><span class="params">(prev, cur, index, array)</span>{</span> 
+<span class="keyword">return</span> prev + cur; 
+}); 
+alert(sum); <span class="comment">//15</span>
+<span class="keyword">var</span> values = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]; 
+<span class="keyword">var</span> sum = values.reduceRight(<span class="function"><span class="keyword">function</span><span class="params">(prev, cur, index, array)</span>{</span> 
+<span class="keyword">return</span> prev + cur; 
+}); 
+alert(sum); <span class="comment">//15</span>
+</pre></td></tr></table></figure>
+
+<p>以上部分内容摘自《javascript高级程序设计》</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/javascript/">javascript</a>, <a href="/tags/前端/">前端</a>
+  </div>
+
+        <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"></a><a href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"��������","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+  <h1 class="title">留言</h1>
+
+  
+      <div id="fb-root"></div>
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=123456789012345";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<div class="fb-comments" data-href="http:chinajs.net/2014/03/14/post4/" data-num-posts="5" data-width="840" data-colorscheme="light"></div>
+      
+  
+	<div class="ds-thread" data-thread-key="�뽫�˴��滻������������վ���е�ID" data-title="���滻�����µı���" data-url="���滻�����µ���ַ"></div>
+<!-- ��˵���ۿ� end -->
+<!-- ��˵����JS���� start (һ����ҳֻ������һ��) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"chinajs"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="搜索">
+    <input type="hidden" name="q" value="site:http:chinajs.net">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/blog/">blog</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/javascript/">javascript</a><small>2</small></li>
+  
+    <li><a href="/tags/javascript，blog/">javascript，blog</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript，前端/">javascript，前端</a><small>1</small></li>
+  
+    <li><a href="/tags/前端/">前端</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+  <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1658280575&verifier=8d4c0fdc&dpc=1"></iframe>
+
+  <div class="widget tag">
+<h3 class="title">友情链接</h3>
+<ul class="entry">
+<li><a href="http://www.colorfulsummer.com/" title="Zippera's Blog">彩色夏天</a></li>
+</ul>
+</div>
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2014 萝卜先生
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>

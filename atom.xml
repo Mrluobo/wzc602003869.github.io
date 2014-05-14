@@ -4,7 +4,7 @@
   <subtitle><![CDATA[blog]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http:chinajs.net/"/>
-  <updated>2014-05-13T10:53:46.427Z</updated>
+  <updated>2014-05-14T03:50:41.633Z</updated>
   <id>http:chinajs.net/</id>
   
   <author>
@@ -13,6 +13,202 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[javascript中数组对象的方法汇总]]></title>
+    <link href="http:chinajs.net/2014/03/14/post4/"/>
+    <id>http:chinajs.net/2014/03/14/post4/</id>
+    <published>2014-03-14T03:26:06.000Z</published>
+    <updated>2014-05-14T03:50:35.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="javascript中数组对象的方法汇总">javascript中数组对象的方法汇总</h2>
+<hr>
+<p>上次我们说了对字符串的操作方法，现在继续总结数组的方法。<br>1.Array.isArray()<br>此方法为检查对象是否为数组对象。接受一个参数，判断参数是否为数组，若为数组，则返回true,反之返回false。<br>2.toString(),toLocaleString()<br>这两个方法通常都返回数组的字符串形式，其中toString()会对每一项调用toString()方法，而toLocaleString()则会对每一项调用toLocaleString()方法。两种方法都返回数组中每个值的字符串形式拼接成的用逗号分隔的字符串。<br>3.valueOf()<br>方法依旧返回原来的数组。<br>4.push(),pop()<br>这两个方法被称为栈方法，原因是LIFO（last-in-first-out）,其中push()方法接受任意数量参数，并会将参数逐个推入数组的末尾，并返回更改后数组的长度。pop()方法则是在数组的末尾删除最后一项，并返回移除的项。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre>    <span class="keyword">var</span> colors = <span class="keyword">new</span> <span class="built_in">Array</span>();                    <span class="comment">//create an array</span>
+    <span class="keyword">var</span> count = colors.push(<span class="string">"red"</span>, <span class="string">"green"</span>);      <span class="comment">//push two items</span>
+        alert(count);  <span class="comment">//2</span>
+        
+    count = colors.push(<span class="string">"black"</span>);        <span class="comment">//push another item on</span>
+        alert(count);  <span class="comment">//3</span>
+        
+     <span class="keyword">var</span> item = colors.pop();           <span class="comment">//get the last item</span>
+        alert(item);   <span class="comment">//"black"</span>
+        alert(colors.length);  <span class="comment">//2</span>
+</pre></td></tr></table></figure>
+
+<p>5.unshift(),shift()<br>这两个方法正好与push()和pop()方法相反，操作的是数组的前端。其中unshift()方法接受任意数量参数，并会将参数逐个推入数组的末尾，并返回更改后数组的长度。shift()方法则是在数组的末尾删除最后一项，并返回移除的项。<br>6.reverse()<br>调用这个方法，会将数组的顺序翻转过来。例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>  <span class="keyword">var</span> values = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
+        values.reverse();
+        alert(values);       <span class="comment">//5,4,3,2,1</span>
+</pre></td></tr></table></figure>
+
+<p>7.sort()<br>这个方法同样也是一个排序方法，在不接受参数的情况下默认按照字符串的升序排列。注意，这里无论数组元素是什么类型的，都会按照字符串的形式来排序。sort()方法也接受一个函数来作为参数，这个函数被称为比较函数。例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="code"><pre> <span class="keyword">var</span> values = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">15</span>];
+        values.sort();
+        alert(values);    <span class="comment">//0,1,10,15,5</span>
+          <span class="function"><span class="keyword">function</span> <span class="title">compare</span><span class="params">(value1, value2)</span> {</span>
+            <span class="keyword">if</span> (value1 &lt; value2) {
+                <span class="keyword">return</span> -<span class="number">1</span>;
+            } <span class="keyword">else</span> <span class="keyword">if</span> (value1 &gt; value2) {
+                <span class="keyword">return</span> <span class="number">1</span>;
+            } <span class="keyword">else</span> {
+                <span class="keyword">return</span> <span class="number">0</span>;
+            }
+        }
+        
+        <span class="keyword">var</span> values = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">15</span>];
+        values.sort(compare);
+        alert(values);    <span class="comment">//0,1,5,10,15</span>
+</pre></td></tr></table></figure>
+
+<p>8.concat()<br>这个方法会建立一个新的数组副本，会将参数中的每一项添加到调用该方法的数组副本中，若参数为数组则会将数组中的每一项添加到副本中，返回新的数组副本，同时并不对原有的数组修改。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>   <span class="keyword">var</span> colors = [<span class="string">"red"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>];
+        <span class="keyword">var</span> colors2 = colors.concat(<span class="string">"yellow"</span>, [<span class="string">"black"</span>, <span class="string">"brown"</span>]);
+        
+        alert(colors);     <span class="comment">//red,green,blue        </span>
+        alert(colors2);    <span class="comment">//red,green,blue,yellow,black,brown</span>
+</pre></td></tr></table></figure>
+
+<p>9.slice()<br>slice()方法是对数组的截取，接受两个参数第二个参数可选，返回截取的数组片段，并不会对原有数组产生影响。需要注意的是，第二个参数时需要截取位置的后一个位置。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre>  <span class="keyword">var</span> colors = [<span class="string">"red"</span>, <span class="string">"green"</span>, <span class="string">"blue"</span>, <span class="string">"yellow"</span>, <span class="string">"purple"</span>];
+        <span class="keyword">var</span> colors2 = colors.slice(<span class="number">1</span>);
+        <span class="keyword">var</span> colors3 = colors.slice(<span class="number">1</span>,<span class="number">4</span>);
+        
+        alert(colors2);   <span class="comment">//green,blue,yellow,purple</span>
+        alert(colors3);   <span class="comment">//green,blue,yellow</span>
+</pre></td></tr></table></figure>
+
+<p>10.splice()<br>这个方法有很多种用法首先第一种：<br>删除：<br>指定两个参数，需要删除的第一项的位置和要删除的项数。返回移除的项</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="keyword">var</span> colors = [<span class="string">"yellow"</span>,<span class="string">"red"</span>,<span class="string">"blue"</span>];
+<span class="keyword">var</span> removed = colors.splice(<span class="number">0</span>,<span class="number">1</span>);
+alert(colors);<span class="comment">//red,blue</span>
+alert(removed);<span class="comment">//yellow</span>
+</pre></td></tr></table></figure>
+
+<p>插入：指定任意多参数，第一个参数为要插入的位置，第二个参数为0（删除0项），接下来可以使任意多个要插入的项。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="keyword">var</span> colors = [<span class="string">"yellow"</span>,<span class="string">"red"</span>,<span class="string">"blue"</span>];
+colors.splice(<span class="number">1</span>,<span class="number">0</span>,<span class="string">"red"</span>,<span class="string">"black"</span>);
+alert(colors)<span class="comment">//yellow,red,blue,red,black</span>
+</pre></td></tr></table></figure>
+
+<p>替换：同样指定任意多参数，起始位置，删除数目，添加项。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre> removed = colors.splice(<span class="number">1</span>, <span class="number">1</span>, <span class="string">"red"</span>, <span class="string">"purple"</span>);
+        alert(colors);     <span class="comment">//green,red,purple,orange,blue</span>
+        alert(removed);    <span class="comment">//yellow - one item array</span>
+</pre></td></tr></table></figure>
+
+<p>11.indexOf()，lastIndexOf()<br>两个方法都接受两个参数，要查找的项和开始查找的位置（可选），返回所查找的位置，若没有找到则返回-1.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre>   <span class="keyword">var</span> numbers = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>];
+        
+        alert(numbers.indexOf(<span class="number">4</span>));        <span class="comment">//3</span>
+        alert(numbers.lastIndexOf(<span class="number">4</span>));    <span class="comment">//5</span>
+        
+        alert(numbers.indexOf(<span class="number">4</span>, <span class="number">4</span>));     <span class="comment">//5</span>
+        alert(numbers.lastIndexOf(<span class="number">4</span>, <span class="number">4</span>)); <span class="comment">//3       </span>
+
+        <span class="keyword">var</span> person = { name: <span class="string">"Nicholas"</span> };
+        <span class="keyword">var</span> people = [{ name: <span class="string">"Nicholas"</span> }];
+        <span class="keyword">var</span> morePeople = [person];
+        
+        alert(people.indexOf(person));     <span class="comment">//-1</span>
+        alert(morePeople.indexOf(person)); <span class="comment">//0</span>
+</pre></td></tr></table></figure>
+
+<p>12.every(),filter(),forEach(),map(),some()<br>这几种方法都是迭代方法<br>every()：对数组中的每一项运行给定函数，如果该函数对每一项都返回true，则返回true。<br>filter()：对数组中的每一项运行给定函数，返回该函数会返回true的项组成的数组。<br>forEach()：对数组中的每一项运行给定函数。这个方法没有返回值。<br>map()：对数组中的每一项运行给定函数，返回每次函数调用的结果组成的数组。<br>some()：对数组中的每一项运行给定函数，如果该函数对任一项返回true，则返回true。<br>以上方法都不会修改数组中的包含的值。<br>13.reduce(),reduceRight()<br>这两个方法都会迭代数组的所有项，然后构建一个最终返回的值。其中，reduce()方法从数组的第一项开始，逐个遍历到最后。而reduceRight()则从数组的最后一项开始，向前遍历到第一项。参数为一个函数，用于处理数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="keyword">var</span> values = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]; 
+<span class="keyword">var</span> sum = values.reduce(<span class="function"><span class="keyword">function</span><span class="params">(prev, cur, index, array)</span>{</span> 
+<span class="keyword">return</span> prev + cur; 
+}); 
+alert(sum); <span class="comment">//15</span>
+<span class="keyword">var</span> values = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]; 
+<span class="keyword">var</span> sum = values.reduceRight(<span class="function"><span class="keyword">function</span><span class="params">(prev, cur, index, array)</span>{</span> 
+<span class="keyword">return</span> prev + cur; 
+}); 
+alert(sum); <span class="comment">//15</span>
+</pre></td></tr></table></figure>
+
+<p>以上部分内容摘自《javascript高级程序设计》</p>
+]]></content>
+    
+    
+      <category term="javascript" scheme="http:chinajs.net/tags/javascript/"/>
+    
+      <category term="前端" scheme="http:chinajs.net/tags/%E5%89%8D%E7%AB%AF/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[javascript中对字符串的操作总结]]></title>
