@@ -51,6 +51,139 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2014-03-15T12:51:42.000Z"><a href="/2014/03/15/post5/">3月 15 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/03/15/post5/">javascript中的闭包分析</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>javascript中利用函数表达式的方式定义函数时，创建了一个函数，并将它赋值给一个变量，创建时，在function后面并没有函数名，故而这种函数叫做匿名函数。而这种方式声明的函数在调用时必须先定义，而声明函数则不需要。这是匿名函数的定义。<br>今天主要要说的是闭包，闭包指的是函数有权访问另一个函数作用域中的变量。创建的方式通常就是在一个函数中创建另一个函数。例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="code"><pre>       <span class="function"><span class="keyword">function</span> <span class="title">createComparisonFunction</span><span class="params">(propertyName)</span> {</span>
+        
+            <span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">(object1, object2)</span>{</span>
+                <span class="keyword">var</span> value1 = object1[propertyName];
+                <span class="keyword">var</span> value2 = object2[propertyName];
+        
+                <span class="keyword">if</span> (value1 &lt; value2){
+                    <span class="keyword">return</span> -<span class="number">1</span>;
+                } <span class="keyword">else</span> <span class="keyword">if</span> (value1 &gt; value2){
+                    <span class="keyword">return</span> <span class="number">1</span>;
+                } <span class="keyword">else</span> {
+                    <span class="keyword">return</span> <span class="number">0</span>;
+                }
+            };
+        }
+</pre></td></tr></table></figure>
+
+<p>在这个函数中，新创建了一个函数，因而这个函数在被返回后，无论在哪里调用，都可以访问到变量propertyName。<br>函数的作用域链从自身的arguments和其他参数一致向上追溯到全局环境。因此，在createComparisonFunction函数内部定义的函数的作用域链中会包含createComparisonFunction的活动对象。故而可以访问到propertyName.<br>但是闭包的一个副作用是，当外部函数中的变量发生变化时，闭包只能取得变量的最后一个值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">createFunctions</span><span class="params">()</span>{</span> 
+<span class="keyword">var</span> result = <span class="keyword">new</span> <span class="built_in">Array</span>(); 
+<span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>; i &lt; <span class="number">10</span>; i++){ 
+result[i] = <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span> 
+<span class="keyword">return</span> i; 
+}; 
+} 
+<span class="keyword">return</span> result; 
+}
+</pre></td></tr></table></figure>
+
+<p>在这个例子中，函数会返回一个函数数组，每个函数返回的实际上都是10.因为，每个函数保存的对变量i的引用都是他的最后状态。<br>匿名函数的执行环节具有全局性，因而其this通常指向window.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="keyword">var</span> name = <span class="string">"The Window"</span>; 
+<span class="keyword">var</span> object = { 
+name : <span class="string">"My Object"</span>, 
+getNameFunc : <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span> 
+<span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span> 
+<span class="keyword">return</span> <span class="keyword">this</span>.name; 
+}; 
+} 
+}; 
+alert(object.getNameFunc()()); <span class="comment">//"The Window"</span>
+</pre></td></tr></table></figure>
+
+<p>在这个例子中闭包的活动对象第一个就是全局对象，所以this指向的是window.<br>在看下面几个例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="keyword">var</span> name = <span class="string">"The Window"</span>; 
+<span class="keyword">var</span> object = { 
+name : <span class="string">"My Object"</span>, 
+getName: <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span> 
+<span class="keyword">return</span> <span class="keyword">this</span>.name; 
+} 
+}; 
+object.getName(); <span class="comment">//"My Object" </span>
+(object.getName)(); <span class="comment">//"My Object" </span>
+(object.getName = object.getName)(); <span class="comment">//"The Window"</span>
+</pre></td></tr></table></figure>
+
+<p>第一行代码跟平常一样调用了object.getName()，返回的是”My Object”，因为this.name就是object.name。第二行代码在调用这个方法前先给它加上了括号。虽然加上括号之后，就好像只是在引用一个函数，但this的值得到了维持，因为object.getName和(object.getName)的定义是相同的。第三行代码先执行了一条赋值语句，然后再调用赋值后的结果。因为这个赋值表达式的值是函数本身，所以this的值不能得到维持，结果就返回了”The Window”。<br>以上内容总结自《javascript高级程序设计》</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2014-03-14T03:26:06.000Z"><a href="/2014/03/14/post4/">3月 14 2014</a></time>
       
       
@@ -963,13 +1096,13 @@ Cf.prototype = {
   <h3 class="title">标签</h3>
   <ul class="entry">
   
-    <li><a href="/tags/javascript/">javascript</a><small>2</small></li>
+    <li><a href="/tags/javascript/">javascript</a><small>3</small></li>
   
     <li><a href="/tags/javascript，blog/">javascript，blog</a><small>1</small></li>
   
     <li><a href="/tags/javascript，前端/">javascript，前端</a><small>1</small></li>
   
-    <li><a href="/tags/前端/">前端</a><small>2</small></li>
+    <li><a href="/tags/前端/">前端</a><small>3</small></li>
   
   </ul>
 </div>
