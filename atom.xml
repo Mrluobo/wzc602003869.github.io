@@ -4,7 +4,7 @@
   <subtitle><![CDATA[blog]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http:chinajs.net/"/>
-  <updated>2014-05-15T12:52:54.267Z</updated>
+  <updated>2014-05-22T01:10:15.890Z</updated>
   <id>http:chinajs.net/</id>
   
   <author>
@@ -13,6 +13,385 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[滚动篇————附一个简单单的自定义滚动条]]></title>
+    <link href="http:chinajs.net/2014/04/22/post6/"/>
+    <id>http:chinajs.net/2014/04/22/post6/</id>
+    <published>2014-04-22T00:59:02.000Z</published>
+    <updated>2014-05-22T01:10:05.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="滚动篇">滚动篇</h1>
+<p>标签（空格分隔）： javascript CSS</p>
+<hr>
+<p>好几天没有发文了，这几天考试，所有耽搁了下来。今天说一说滚动的问题。<br>前端学习中，页面滚动是一个很重要的部分。<br>首先要说的是偏移量的问题。先看元素的几个属性<br>1.offsetHeight,offsetWidth:这两个属性是元素在水平和垂直方向所占的空间大小。包含边框。<br>2.offsetLeft,offsetTop:元素相对于包含元素的上、左方向的距离。<br>再看一个问题，客户区的大小，指的是元素内容及其内边距所占的空间大小。不包含边框。用clientWidth,clientHeight表示。<br>最后要介绍的是滚动大小，scrollHeigth,和scrollWidth表示在没有滚动条的情况下，元素内容的总高度和总宽度。scrollLeft,scrollTop，被隐藏的内容区域的像素数。<br>在涉及浏览器的滚动的时候需要注意的是，混杂模式下IE是在body中滚动，而其他的浏览器大多认为是在浏览器的视口中滚动，所以在这里就用做一些兼容问题：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>scrollHeight = document.documentElement.scrollHeight||document.body.scrollHeight;
+</pre></td></tr></table></figure>
+
+<p>接下来通过一个自定义滚动条来进一步讨论这两个问题。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+</pre></td><td class="code"><pre>
+&lt;head&gt;
+    &lt;script&gt;
+window.onload=function(){
+    var div3=document.getElementById("div3");
+    var div2=document.getElementById('div2');
+    var div4=document.getElementById('div4');
+
+    div3.onmousedown=function(e){
+      var  e=e||event;
+
+        var yy= e.clientY-div3.offsetTop
+
+
+        document.onmousemove=function(ev){
+         var   e=ev||event;
+         var  l = e.clientY-yy;
+            if(l&lt;0){
+                l=0;
+            }else if(l&gt;390){
+                l=390   ;
+            };
+            div3.style.top=l+'px';
+            div4.style.top=-l/390*(div4.offsetHeight-400)+'px';
+
+        }
+        document.onmouseup=function(){
+            document.onmousemove=null;
+        }
+        return false;
+    }
+}
+
+    &lt;/script&gt;
+    &lt;style type="text/css"&gt;
+        #div1{
+            width:100px;
+            height:400px;
+            border:solid black 1px;
+            float:left;
+            position: relative;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;div id="div1" &gt;
+    &lt;div id="div4" style="position: absolute;width:100px;overflow:hidden;"&gt;
+    # 在此处输入标题
+
+    标签（空格分隔）： 未分类
+
+    ---
+    ##javascript中event汇总
+    ie firefox chrome opera Safari浏览器中对 event的处理并不一致，在此我将各个浏览器中event的兼容处理做了一个汇总，此处引用的是javascript中的event兼容处理代码。
+    
+    var EventUtil = {//在这里我们用一个对象来将对event的各种兼容处理封装起来
+    //首先是对绑定事件的兼容
+    addHandler: function(element, type, handler){
+    if (element.addEventListener){
+    //DOM2级处理绑定事件方法
+    element.addEventListener(type, handler, false);
+    } else if (element.attachEvent){
+    //IE绑定方法
+    element.attachEvent("on" + type, handler);
+    } else {
+    //DOM0级处理方法（可选，仅支持DOM0级的浏览器似乎已经不存在了）
+    element["on" + type] = handler;
+    }
+    },
+    //鼠标按钮的兼容处理
+    getButton: function(event){
+    if (document.implementation.hasFeature("MouseEvents", "2.0")){//首先检查是否是DOM标准
+    return event.button;
+    } else {
+    //对IE向DOM兼容
+    switch(event.button){
+    case 0:
+    case 1:
+    case 3:
+    case 5:
+    case 7:
+    return 0;
+    case 2:
+    case 6:
+    return 2;
+    case 4: return 1;
+    }
+    }
+    },
+    //获取字符编码
+    getCharCode: function(event){
+    if (typeof event.charCode == "number"){
+    return event.charCode;
+    } else {//IE8之前和opera 需要使用keyCode获取字符编码
+    return event.keyCode;
+    }
+    },
+    //剪切板的访问
+    getClipboardText: function(event){
+    var clipboardData =  (event.clipboardData || window.clipboardData);
+    return clipboardData.getData("text");
+    },
+    //得到事件对象
+    getEvent: function(event){
+    return event ? event : window.event;
+    },
+    //得到相关元素
+    getRelatedTarget: function(event){
+    if (event.relatedTarget){
+    return event.relatedTarget;
+    } else if (event.toElement){
+    return event.toElement;
+    } else if (event.fromElement){
+    return event.fromElement;
+    } else {
+    return null;
+    }
+
+    },
+    //得到事件目标
+    getTarget: function(event){
+    return event.target || event.srcElement;
+    },
+    //对滑轮事件进行兼容
+    getWheelDelta: function(event){
+    if (event.wheelDelta){
+    return (client.engine.opera && client.engine.opera &lt; 9.5 ? -event.wheelDelta : event.wheelDelta);
+    } else {
+    return -event.detail * 40;
+    }
+    },
+    //阻止默认事件
+    preventDefault: function(event){
+    if (event.preventDefault){
+    event.preventDefault();
+    } else {
+    event.returnValue = false;
+    }
+    },
+    //移除事件
+    removeHandler: function(element, type, handler){
+    if (element.removeEventListener){
+    element.removeEventListener(type, handler, false);
+    } else if (element.detachEvent){
+    element.detachEvent("on" + type, handler);
+    } else {
+    element["on" + type] = null;
+    }
+    },
+    //设置剪切板内容
+    setClipboardText: function(event, value){
+    if (event.clipboardData){
+    event.clipboardData.setData("text/plain", value);
+    } else if (window.clipboardData){
+    window.clipboardData.setData("text", value);
+    }
+    },
+    //阻止事件冒泡
+    stopPropagation: function(event){
+    if (event.stopPropagation){
+    event.stopPropagation();
+    } else {
+    event.cancelBubble = true;
+    }
+    }
+
+    };
+   
+    此处添加的事件尚不完全，有待扩充。
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="div2" style="height:400px;width:10px;border:1px solid black;float:left;position:relative;"&gt;&lt;div id="div3" style="height:10px;width:10px;background:red;position:absolute;top:0px;"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;body&gt;
+
+&lt;/div&gt;
+</pre></td></tr></table></figure>
+
+<p>在这个自定义滚动条中我们通过设置top来更改元素的位置，不能使用scrollTop因为scrollTop是只读的。</p>
+]]></content>
+    
+    
+      <category term="javascript" scheme="http:chinajs.net/tags/javascript/"/>
+    
+      <category term="CSS" scheme="http:chinajs.net/tags/CSS/"/>
+    
+      <category term="前端" scheme="http:chinajs.net/tags/%E5%89%8D%E7%AB%AF/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[javascript中的闭包分析]]></title>
