@@ -4,7 +4,7 @@
   <subtitle><![CDATA[blog]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http:chinajs.net/"/>
-  <updated>2014-05-22T02:52:44.166Z</updated>
+  <updated>2014-05-26T02:02:44.122Z</updated>
   <id>http:chinajs.net/</id>
   
   <author>
@@ -13,6 +13,137 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Cookie篇]]></title>
+    <link href="http:chinajs.net/2014/05/26/post7/"/>
+    <id>http:chinajs.net/2014/05/26/post7/</id>
+    <published>2014-05-26T02:00:40.000Z</published>
+    <updated>2014-05-26T02:02:38.000Z</updated>
+    <content type="html"><![CDATA[<p>周末百度笔试，问了一个cookie的问题，我SB的蒙住了，于是乎，似乎是跪掉了，回来后总结了下Cooke的相关问题。</p>
+<h3 id="获取cookie">获取cookie</h3>
+<p>javascript中对cookie的接口操作方法就是利用document.cookie来进行的，获取cookie的方法如下。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="keyword">var</span> str = document.cookie;
+</pre></td></tr></table></figure>
+
+<p>需要注意的是，cookie保存到字符串是经过URL编码的，所以使用时需要进行解码。</p>
+<h3 id="创建cookie">创建cookie</h3>
+<p>与获取cookie方法相同，创建cookie依旧使用document.cookie，下面举一个简单的例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>document.cookie=<span class="string">"name1=value1;name2=value2"</span>;
+</pre></td></tr></table></figure>
+
+<p>如例子中所看到的，cookie的格式是一个个名值对组成，并由分号分隔开。</p>
+<h3 id="删除cookie">删除cookie</h3>
+<p>javascript中并没有直接删除cookie的方法，所以只能通过从新设置cookie，并将cookie的失效时间调整为已经过去的事件，从而达到删除cookie的方法。<br>以下是高程三中的cookie方法整合：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+</pre></td><td class="code"><pre><span class="keyword">var</span> CookieUtil = {
+
+    get: <span class="function"><span class="keyword">function</span> <span class="params">(name)</span>{</span><span class="comment">//获取cookie</span>
+        <span class="keyword">var</span> cookieName = <span class="built_in">encodeURIComponent</span>(name) + <span class="string">"="</span>,
+            cookieStart = document.cookie.indexOf(cookieName),
+            cookieValue = <span class="literal">null</span>,
+            cookieEnd;
+            
+        <span class="keyword">if</span> (cookieStart &gt; -<span class="number">1</span>){
+            cookieEnd = document.cookie.indexOf(<span class="string">";"</span>, cookieStart);
+            <span class="keyword">if</span> (cookieEnd == -<span class="number">1</span>){
+                cookieEnd = document.cookie.length;
+            }
+            cookieValue = <span class="built_in">decodeURIComponent</span>(document.cookie.substring(cookieStart + cookieName.length, cookieEnd));
+        } 
+
+        <span class="keyword">return</span> cookieValue;
+    },
+    
+    set: <span class="function"><span class="keyword">function</span> <span class="params">(name, value, expires, path, domain, secure)</span> {</span>
+      <span class="comment">//设置cookie</span>
+        <span class="keyword">var</span> cookieText = <span class="built_in">encodeURIComponent</span>(name) + <span class="string">"="</span> + <span class="built_in">encodeURIComponent</span>(value);
+    
+        <span class="keyword">if</span> (expires <span class="keyword">instanceof</span> <span class="built_in">Date</span>) {
+            cookieText += <span class="string">"; expires="</span> + expires.toGMTString();
+        }
+    
+        <span class="keyword">if</span> (path) {
+            cookieText += <span class="string">"; path="</span> + path;
+        }
+    
+        <span class="keyword">if</span> (domain) {
+            cookieText += <span class="string">"; domain="</span> + domain;
+        }
+    
+        <span class="keyword">if</span> (secure) {
+            cookieText += <span class="string">"; secure"</span>;
+        }
+    
+        document.cookie = cookieText;
+    },
+    
+    unset: <span class="function"><span class="keyword">function</span> <span class="params">(name, path, domain, secure)</span>{</span>
+    <span class="comment">//删除cookie通过重新设置cookie，并将失效日期设置为过去的时间。</span>
+        <span class="keyword">this</span>.set(name, <span class="string">""</span>, <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="number">0</span>), path, domain, secure);
+    }
+
+};
+</pre></td></tr></table></figure>
+
+<p>以上就是cookie的小部分内容，学习需要谨慎，基础至关重要。</p>
+]]></content>
+    
+    
+      <category term="javascript" scheme="http:chinajs.net/tags/javascript/"/>
+    
+      <category term="前端" scheme="http:chinajs.net/tags/%E5%89%8D%E7%AB%AF/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[滚动篇————附一个简单单的自定义滚动条]]></title>
