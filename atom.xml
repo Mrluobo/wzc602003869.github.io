@@ -4,7 +4,7 @@
   <subtitle><![CDATA[blog]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http:chinajs.net/"/>
-  <updated>2014-06-15T10:44:03.767Z</updated>
+  <updated>2014-06-15T10:45:04.086Z</updated>
   <id>http:chinajs.net/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http:chinajs.net/2014/06/10/post8/"/>
     <id>http:chinajs.net/2014/06/10/post8/</id>
     <published>2014-06-10T10:17:44.000Z</published>
-    <updated>2014-06-15T10:43:57.000Z</updated>
+    <updated>2014-06-15T10:44:57.000Z</updated>
     <content type="html"><![CDATA[<h3 id="jQuery系列-轮播">jQuery系列-轮播</h3>
 <p>经过前辈指点，准备近期写一些作品，找工作的时候也许会用的上，最近忙考试忙的头疼，所以就从简单的开始，首先是花了点时间写了个一个轮播图。网上轮播图的jquery插件很多，在这我先简单的用show()hide()两个动画效果进行尝试，后续会有动画效果上的更新。<br>下面附源码：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre>1
@@ -236,7 +236,7 @@
 <span class="tag">&lt;/<span class="title">html</span>&gt;</span>
 </pre></td></tr></table></figure>
 
-<p><a href="chinajs.net/jqimg">点击查看演示效果</a></p>
+<p><a href="chinajs.net/jqimg.html">点击查看演示效果</a></p>
 ]]></content>
     
     
