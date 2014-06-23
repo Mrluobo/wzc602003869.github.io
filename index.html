@@ -51,6 +51,150 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2014-06-23T02:19:23.000Z"><a href="/2014/06/23/post11/">6月 23 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/06/23/post11/">随页面滚动的广告</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>好多网站都会有一个在侧面无论你怎么滚动都会出现的小侧边栏广告，实现这个很简单，只需要简单的监听窗口滚都即可。下面给出了一个例子：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+</pre></td><td class="code"><pre><span class="doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;<span class="title">html</span>&gt;</span>
+<span class="tag">&lt;<span class="title">head</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">style</span> <span class="attribute">type</span>=<span class="value">"text/css"</span>&gt;</span><span class="css">
+        <span class="id">#test</span><span class="rules">{
+            <span class="rule"><span class="attribute">width</span>:<span class="value"><span class="number">100</span>px</span></span>;
+            <span class="rule"><span class="attribute">height</span>:<span class="value"><span class="number">100</span>px</span></span>;
+            <span class="rule"><span class="attribute">background</span>:<span class="value"> red</span></span>;
+            <span class="rule"><span class="attribute">position</span>:<span class="value">absolute</span></span>;
+            <span class="rule"><span class="attribute">right</span>:<span class="value"><span class="number">0</span>px</span></span>;
+            <span class="rule"><span class="attribute">top</span>:<span class="value"><span class="number">50</span>%</span></span>;
+        <span class="rule">}</span></span>
+    </span><span class="tag">&lt;/<span class="title">style</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>JSONP Example<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
+        window.onload=<span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+            <span class="keyword">var</span> i=<span class="number">1</span>;
+            <span class="keyword">var</span> div1=document.getElementById(<span class="string">"test"</span>);
+            window.onresize=window.onscroll=<span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+                <span class="keyword">var</span> aaa=document.documentElement.scrollTop||document.body.scrollTop;
+                <span class="keyword">var</span> t=(document.documentElement.clientHeight-div1.offsetHeight)/<span class="number">2</span>;
+                <span class="comment">//div1.style.top=aaa  +t+ 'px';</span>
+                move(div1,{attr:<span class="string">"top"</span>,dis:aaa  +t})
+                <span class="function"><span class="keyword">function</span> <span class="title">getstyle</span><span class="params">(obj,attr)</span>{</span>
+                    <span class="keyword">if</span> (obj.currentStyle){
+                        <span class="keyword">return</span> obj.currentStyle[attr];
+                    }<span class="keyword">else</span>{
+                        <span class="keyword">return</span> getComputedStyle(obj,<span class="literal">null</span>)[attr];
+                    }
+                }
+                <span class="function"><span class="keyword">function</span> <span class="title">move</span><span class="params">(obj,json)</span>{</span>
+                        clearInterval(obj.time);
+                   obj.time= setInterval(<span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+                        <span class="keyword">var</span> pos=<span class="built_in">parseInt</span>(getstyle(obj,json.attr));
+
+                        <span class="keyword">var</span> dis=json.dis-pos;
+                        obj.style[json.attr]=pos+dis/<span class="number">8</span>+<span class="string">'px'</span>;
+                       i++;
+                        <span class="keyword">if</span>(pos==json.dis){
+                            i=<span class="number">1</span>;
+                            clearInterval(obj.time);
+
+                        }
+                    },<span class="number">30</span>)
+
+                }
+            }
+        }
+    </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+<span class="tag">&lt;<span class="title">body</span>  <span class="attribute">style</span>=<span class="value">"height:2000px;"</span>&gt;</span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"test"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">html</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<p><a href="">演示实例</a><br>其中将红色的div改写成广告，就可以实现随滚动条滚动的侧边栏广告了。对于广告的响应速度也可以在move函数里面进行调整。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2014-06-20T06:34:24.000Z"><a href="/2014/06/20/post10/">6月 20 2014</a></time>
       
       
@@ -1984,270 +2128,11 @@ Cf.prototype = {
 
 
 
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2014-03-11T09:58:50.000Z"><a href="/2014/03/11/post1/">3月 11 2014</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/03/11/post1/">javascript中event汇总</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="javascript中event汇总">javascript中event汇总</h2>
-<p>ie firefox chrome opera Safari浏览器中对 event的处理并不一致，在此我将各个浏览器中event的兼容处理做了一个汇总，此处引用的是javascript中的event兼容处理代码。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-</pre></td><td class="code"><pre><span class="keyword">var</span> EventUtil = {<span class="comment">//在这里我们用一个对象来将对event的各种兼容处理封装起来</span>
-<span class="comment">//首先是对绑定事件的兼容</span>
-    addHandler: <span class="function"><span class="keyword">function</span><span class="params">(element, type, handler)</span>{</span>
-        <span class="keyword">if</span> (element.addEventListener){
-        <span class="comment">//DOM2级处理绑定事件方法</span>
-            element.addEventListener(type, handler, <span class="literal">false</span>);
-        } <span class="keyword">else</span> <span class="keyword">if</span> (element.attachEvent){
-        <span class="comment">//IE绑定方法</span>
-            element.attachEvent(<span class="string">"on"</span> + type, handler);
-        } <span class="keyword">else</span> {
-        <span class="comment">//DOM0级处理方法（可选，仅支持DOM0级的浏览器似乎已经不存在了）</span>
-            element[<span class="string">"on"</span> + type] = handler;
-        }
-    },
-    <span class="comment">//鼠标按钮的兼容处理</span>
-    getButton: <span class="function"><span class="keyword">function</span><span class="params">(event)</span>{</span>
-        <span class="keyword">if</span> (document.implementation.hasFeature(<span class="string">"MouseEvents"</span>, <span class="string">"2.0"</span>)){<span class="comment">//首先检查是否是DOM标准</span>
-            <span class="keyword">return</span> event.button;
-        } <span class="keyword">else</span> {
-     <span class="comment">//对IE向DOM兼容</span>
-            <span class="keyword">switch</span>(event.button){
-                <span class="keyword">case</span> <span class="number">0</span>:
-                <span class="keyword">case</span> <span class="number">1</span>:
-                <span class="keyword">case</span> <span class="number">3</span>:
-                <span class="keyword">case</span> <span class="number">5</span>:
-                <span class="keyword">case</span> <span class="number">7</span>:
-                    <span class="keyword">return</span> <span class="number">0</span>;
-                <span class="keyword">case</span> <span class="number">2</span>:
-                <span class="keyword">case</span> <span class="number">6</span>:
-                    <span class="keyword">return</span> <span class="number">2</span>;
-                <span class="keyword">case</span> <span class="number">4</span>: <span class="keyword">return</span> <span class="number">1</span>;
-            }
-        }
-    },
-    <span class="comment">//获取字符编码</span>
-    getCharCode: <span class="function"><span class="keyword">function</span><span class="params">(event)</span>{</span>
-        <span class="keyword">if</span> (<span class="keyword">typeof</span> event.charCode == <span class="string">"number"</span>){
-            <span class="keyword">return</span> event.charCode;
-        } <span class="keyword">else</span> {<span class="comment">//IE8之前和opera 需要使用keyCode获取字符编码</span>
-            <span class="keyword">return</span> event.keyCode;
-        }
-    },
-    <span class="comment">//剪切板的访问</span>
-    getClipboardText: <span class="function"><span class="keyword">function</span><span class="params">(event)</span>{</span>
-        <span class="keyword">var</span> clipboardData =  (event.clipboardData || window.clipboardData);
-        <span class="keyword">return</span> clipboardData.getData(<span class="string">"text"</span>);
-    },
-    <span class="comment">//得到事件对象</span>
-    getEvent: <span class="function"><span class="keyword">function</span><span class="params">(event)</span>{</span>
-        <span class="keyword">return</span> event ? event : window.event;
-    },
-    <span class="comment">//得到相关元素</span>
-    getRelatedTarget: <span class="function"><span class="keyword">function</span><span class="params">(event)</span>{</span>
-        <span class="keyword">if</span> (event.relatedTarget){
-            <span class="keyword">return</span> event.relatedTarget;
-        } <span class="keyword">else</span> <span class="keyword">if</span> (event.toElement){
-            <span class="keyword">return</span> event.toElement;
-        } <span class="keyword">else</span> <span class="keyword">if</span> (event.fromElement){
-            <span class="keyword">return</span> event.fromElement;
-        } <span class="keyword">else</span> {
-            <span class="keyword">return</span> <span class="literal">null</span>;
-        }
-
-    },
-    <span class="comment">//得到事件目标</span>
-    getTarget: <span class="function"><span class="keyword">function</span><span class="params">(event)</span>{</span>
-        <span class="keyword">return</span> event.target || event.srcElement;
-    },
-    <span class="comment">//对滑轮事件进行兼容</span>
-    getWheelDelta: <span class="function"><span class="keyword">function</span><span class="params">(event)</span>{</span>
-        <span class="keyword">if</span> (event.wheelDelta){
-            <span class="keyword">return</span> (client.engine.opera && client.engine.opera &lt; <span class="number">9.5</span> ? -event.wheelDelta : event.wheelDelta);
-        } <span class="keyword">else</span> {
-            <span class="keyword">return</span> -event.detail * <span class="number">40</span>;
-        }
-    },
-    <span class="comment">//阻止默认事件</span>
-    preventDefault: <span class="function"><span class="keyword">function</span><span class="params">(event)</span>{</span>
-        <span class="keyword">if</span> (event.preventDefault){
-            event.preventDefault();
-        } <span class="keyword">else</span> {
-            event.returnValue = <span class="literal">false</span>;
-        }
-    },
-    <span class="comment">//移除事件</span>
-    removeHandler: <span class="function"><span class="keyword">function</span><span class="params">(element, type, handler)</span>{</span>
-        <span class="keyword">if</span> (element.removeEventListener){
-            element.removeEventListener(type, handler, <span class="literal">false</span>);
-        } <span class="keyword">else</span> <span class="keyword">if</span> (element.detachEvent){
-            element.detachEvent(<span class="string">"on"</span> + type, handler);
-        } <span class="keyword">else</span> {
-            element[<span class="string">"on"</span> + type] = <span class="literal">null</span>;
-        }
-    },
-    <span class="comment">//设置剪切板内容</span>
-    setClipboardText: <span class="function"><span class="keyword">function</span><span class="params">(event, value)</span>{</span>
-        <span class="keyword">if</span> (event.clipboardData){
-            event.clipboardData.setData(<span class="string">"text/plain"</span>, value);
-        } <span class="keyword">else</span> <span class="keyword">if</span> (window.clipboardData){
-            window.clipboardData.setData(<span class="string">"text"</span>, value);
-        }
-    },
-    <span class="comment">//阻止事件冒泡</span>
-    stopPropagation: <span class="function"><span class="keyword">function</span><span class="params">(event)</span>{</span>
-        <span class="keyword">if</span> (event.stopPropagation){
-            event.stopPropagation();
-        } <span class="keyword">else</span> {
-            event.cancelBubble = <span class="literal">true</span>;
-        }
-    }
-
-};
-</pre></td></tr></table></figure>
-
-<p>此处添加的事件尚不完全，有待扩充。</p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
 
 <nav id="pagination">
   
+  
+    <a href="/page/2/" class="alignright next">下一页</a>
   
   <div class="clearfix"></div>
 </nav></div></div>
@@ -2282,6 +2167,8 @@ Cf.prototype = {
     <li><a href="/tags/javascript，blog/">javascript，blog</a><small>1</small></li>
   
     <li><a href="/tags/javascript，前端/">javascript，前端</a><small>1</small></li>
+  
+    <li><a href="/tags/javascript，广告/">javascript，广告</a><small>1</small></li>
   
     <li><a href="/tags/jquery/">jquery</a><small>1</small></li>
   
