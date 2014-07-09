@@ -51,6 +51,255 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2014-03-12T12:06:06.000Z"><a href="/2014/03/12/post2/">3月 12 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/03/12/post2/">javascript中创建对象的几种方式</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="javascript中创建对象的几种方式">javascript中创建对象的几种方式</h2>
+<hr>
+<p>javascript中提供了通过Object构造函数或对象字面量方式来创建单个的对象，当我们想要创建很多对象的时候，简单的通过这两种方法就会产生大量的重复。在此，我总结了几种创建对象的模式。本文是在我阅读《javascript高级程序设计》后总结而来。</p>
+<h3 id="1-工厂模式">1.工厂模式</h3>
+<p>这种模式通过用函数来减少代码重复，利用函数的参数作为接口，与对象的属性与方法对接。 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">createfactory</span><span class="params">(name,age)</span>{</span>
+    <span class="keyword">var</span> obj = <span class="keyword">new</span> <span class="built_in">Object</span>();
+    obj.name = name;
+    obj.age = age;
+    <span class="keyword">return</span> obj;
+}
+<span class="keyword">var</span> test1 = createfactory(<span class="string">'aaa'</span>,<span class="number">18</span>);
+<span class="keyword">var</span> test2 = createfactory(<span class="string">'bbb'</span>,<span class="number">50</span>);
+</pre></td></tr></table></figure>
+
+<p>这样就完成了简单的代码复用，实现了代码重复，但是无法确定所创建对象的类型。</p>
+<h3 id="构造函数模式">构造函数模式</h3>
+<p>我们都知道Object,Array等原生的构造函数可以用来创建对象。构造函数模式和此类似，通过自定义创建构造函数，来创建新类型的对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">Createfunction</span><span class="params">(name,age，)</span>{</span>
+    <span class="keyword">this</span>.name = name;
+    <span class="keyword">this</span>. age = gae;
+    <span class="keyword">this</span>.sayname = <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+        alert(<span class="keyword">this</span>.name);
+    }
+}
+<span class="keyword">var</span> test1 = <span class="keyword">new</span> Createfunction(<span class="string">'aaa'</span>,<span class="number">20</span>);
+<span class="keyword">var</span> test2 = <span class="keyword">new</span> Createfunction(<span class="string">'bbb'</span>,<span class="number">50</span>);
+</pre></td></tr></table></figure>
+
+<p>按照惯例，构造函数应以一个大写字母开头。这种模式可以将新对象的类型确定下来。然后这种模式依旧存在问题，test1和test2两个实例中都有sayname方法，在javascript中函数就是对象，因此在创建test1和test2的同时也实例化了两次函数对象，相当于这样：</p>
+<figure class="highlight new"><figcaption><span>Function("alert(this.name)") ```。</span></figcaption><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="code"><pre>
+###原型模式
+每个函数都有一个prototype属性，指向它的原型对象。原型对象可以让所有对象实例共享其中的属性和方法。看下面的例子。
+```javascript
+<span class="function"><span class="keyword">function</span> <span class="title">Cf</span><span class="params">()</span>{</span>}
+Cf.prototype.name = <span class="string">"aaa"</span>;
+Cf.prototype.age = <span class="number">29</span>;
+Cf.prototype.sayname = <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+    alert(<span class="keyword">this</span>.name);
+    }
+<span class="keyword">var</span> test1 = <span class="keyword">new</span> Createfunction();
+<span class="keyword">var</span> test2 = <span class="keyword">new</span> Createfunction();
+</pre></td></tr></table></figure>
+
+<p>上面这种方法通过将属性和方法添加到了构造函数的原型对象中，这样新对象的所有实例会共享这些属性和方法。<br>为了进一步减少代码量，有人提出了重写原型对象的方法。看下面的例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">Cf</span><span class="params">()</span>{</span>}
+Cf.prototype = {
+    name = <span class="string">"aaa"</span>;
+    age = <span class="number">29</span>;
+    sayname = <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+        alert(<span class="keyword">this</span>.name);
+    }
+}
+<span class="keyword">var</span> test1 = <span class="keyword">new</span> Createfunction();
+<span class="keyword">var</span> test2 = <span class="keyword">new</span> Createfunction();
+</pre></td></tr></table></figure>
+
+<p>这种方法通过重写原型对象进一步减少代码重复，然而这样的写法带来了新的问题。<br>在简单的通过原型模式创建对象时，原型对象的动态变化会实时的反应在实例中，因为实例中的[[Prototype]]属性是指向原型对象的，这样对于调用属性和方法的向上搜索过程，会搜寻到原型对象中的属性和方法。而当先实例化一个对象后，再重写原型对象，实例中的[[Prototype]]不再指向新的原型对象，因而导致在调用的过程中无法向上搜索到新的原型对象，所以在使用重写原型对象方法的时候，一定要先重写对象，再创建实例。<br>原型对象模式依旧存在缺点，虽然它省略了为函数传参这一环节，但是实例默认情况下都取得相同的属性值。此外对于包含引用类型的属性来说，当对实例属性修改会导致原型对象中属性的同步变化。这样，这种变化也就实时的反应在了所有的实例中。显然这不是我们想要的结果。<br>联系前面说的构造函数模式，我们可以通过组合使用构造函数模式和原型模式来解决这一问题。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name, age, job)</span>{</span>
+            <span class="keyword">this</span>.name = name;
+            <span class="keyword">this</span>.age = age;
+            <span class="keyword">this</span>.job = job;
+            <span class="keyword">this</span>.friends = [<span class="string">"Shelby"</span>, <span class="string">"Court"</span>];
+        }
+        
+        Person.prototype = {
+            constructor: Person,
+            sayName : <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+                alert(<span class="keyword">this</span>.name);
+            }
+        };
+        
+        <span class="keyword">var</span> person1 = <span class="keyword">new</span> Person(<span class="string">"Nicholas"</span>, <span class="number">29</span>, <span class="string">"Software Engineer"</span>);
+        <span class="keyword">var</span> person2 = <span class="keyword">new</span> Person(<span class="string">"Greg"</span>, <span class="number">27</span>, <span class="string">"Doctor"</span>);
+</pre></td></tr></table></figure>
+
+<p>在构造函数中定义实例属性，在原型模式中定义方法和共享的属性。这样，每个实例都有自己的实例属性的副本，同时也有共享的属性和方法，节省了内存，也可以通过传参来定义实例属性。</p>
+<h3 id="动态原型模式">动态原型模式</h3>
+<p>动态原型模式其实相当于原型模式的一个变种，将所有的信息都封装在构造函数中，仅在必要的情况下初始化原型对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">Person</span><span class="params">(name, age, job)</span>{</span>
+        
+            <span class="comment">//properties</span>
+            <span class="keyword">this</span>.name = name;
+            <span class="keyword">this</span>.age = age;
+            <span class="keyword">this</span>.job = job;
+            
+            <span class="comment">//methods</span>
+            <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="keyword">this</span>.sayName != <span class="string">"function"</span>){
+            
+                Person.prototype.sayName = <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+                    alert(<span class="keyword">this</span>.name);
+                };
+                
+            }
+        }
+
+        <span class="keyword">var</span> friend = <span class="keyword">new</span> Person(<span class="string">"Nicholas"</span>, <span class="number">29</span>, <span class="string">"Software Engineer"</span>);
+        friend.sayName();
+</pre></td></tr></table></figure>
+
+<p>在这个构造函数中通过判断属性是否存在来决定是否对原型对象初始化。这样只有在第一次实例化对象时才会对原型对象初始化，可以说是十分的完美了。</p>
+<h3 id="寄生构造函数模式">寄生构造函数模式</h3>
+<p>当我们想为一个已经存在的构造函数创建一个具有额外方法的构造函数，由于不能重写存在的构造函数，这时就可以使用这种模式了。看例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="code"><pre>       <span class="function"><span class="keyword">function</span> <span class="title">SpecialArray</span><span class="params">()</span>{</span>       
+ 
+            <span class="comment">//create the array</span>
+            <span class="keyword">var</span> values = <span class="keyword">new</span> <span class="built_in">Array</span>();
+            
+            <span class="comment">//add the values</span>
+            values.push.apply(values, <span class="built_in">arguments</span>);
+            
+            <span class="comment">//assign the method</span>
+            values.toPipedString = <span class="function"><span class="keyword">function</span><span class="params">()</span>{</span>
+                <span class="keyword">return</span> <span class="keyword">this</span>.join(<span class="string">"|"</span>);
+            };
+            
+            <span class="comment">//return it</span>
+            <span class="keyword">return</span> values;        
+        }
+        
+        <span class="keyword">var</span> colors = <span class="keyword">new</span> SpecialArray(<span class="string">"red"</span>, <span class="string">"blue"</span>, <span class="string">"green"</span>);
+</pre></td></tr></table></figure>
+
+<p>这个例子中，创建了一个具有额外方法的数组，具有额外的特殊方法，在不修改数组构造函数的前提下，创建了一个新的构造函数。不过寄生构造函数模式返回的对象与构造函数的原型对象没有关系。</p>
+<p>以上为我总结的创建对象的几种方法，还有一种稳妥构造函数模式，适用于安全环境中，在此就不做介绍了。<br>以上内容均为阅读《javascript高级程序设计》总结而来。</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2014-03-11T09:58:50.000Z"><a href="/2014/03/11/post1/">3月 11 2014</a></time>
       
       
@@ -338,7 +587,7 @@
   <h3 class="title">标签</h3>
   <ul class="entry">
   
-    <li><a href="/tags/CSS/">CSS</a><small>1</small></li>
+    <li><a href="/tags/CSS/">CSS</a><small>2</small></li>
   
     <li><a href="/tags/javascript/">javascript</a><small>8</small></li>
   
@@ -349,6 +598,8 @@
     <li><a href="/tags/javascript，广告/">javascript，广告</a><small>1</small></li>
   
     <li><a href="/tags/jquery/">jquery</a><small>1</small></li>
+  
+    <li><a href="/tags/sass/">sass</a><small>1</small></li>
   
     <li><a href="/tags/前端/">前端</a><small>7</small></li>
   

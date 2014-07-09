@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>China JS</title>
+  <title>sass学习笔记(1) | China JS</title>
   <meta name="author" content="萝卜先生">
   
   <meta name="description" content="javascript">
@@ -11,7 +11,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  
+  <meta property="og:title" content="sass学习笔记(1)"/>
   <meta property="og:site_name" content="China JS"/>
 
   
@@ -44,131 +44,127 @@
 </nav>
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
-    <div id="main-col" class="alignleft"><div id="wrapper"><article class="page">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
   
   <div class="post-content">
     <header>
       
+        <div class="icon"></div>
+        <time datetime="2014-07-09T13:28:28.000Z"><a href="/2014/07/09/post12/">7月 9 2014</a></time>
+      
       
   
-    <h1 class="title"></h1>
+    <h1 class="title">sass学习笔记(1)</h1>
   
 
     </header>
     <div class="entry">
       
-        <!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="main.js"></script>
-    <style type="text/css">
-        *{
-            margin:0px;
-            padding:0px;
-        }
-        ul,li{list-style:none;}
-        #fu{
-            width:500px;
-            height:300px;
-            border:red 1px solid;
-            position: relative;
-        }
-        #num{
-            position:absolute;
-            right:0px;
-            bottom: 0px;;
-        }
-        #num a{
-            display:block;
-            float:left;
-            width:20px;
-            border: 1px red solid;
-            text-decoration: none;;
-        }
+        <hr>
+<p>看了阮一峰大神写的SASS用法指南，感觉这是一个脱离CSS苦海的好机会。慢慢来一点一点的学习。首先附大神写的指南链接————<a href="http://www.ruanyifeng.com/blog/2012/06/sass.html" target="_blank">戳这里!</a></p>
+<h2 id="1，安装">1，安装</h2>
+<p>先装Ruby，这个东西真心不会用，不过好在学习SASS并不需要我们会用Ruby,只是借用一个工具而已，下面附一个下载链接。<br><a href="http://rubyinstaller.org/downloads/" target="_blank">Ruby下载链接</a><br>里面有各种不同的版本，按需求下载安装即可。需要注意的是安装时要把那几个选项勾选上。不然后面操作不能进行。<br>命令行执行如下代码，进行sass的安装。这里根据网络情况，会有一些缓慢，不要急，等一会就会好的。</p>
+<figure class="highlight sass"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>gem <span class="keyword">install</span> sass
+</pre></td></tr></table></figure>
 
-    </style>
-</head>
-<body>
-<div id="fu">
-    <ul id="lun">
-        <li><img src="http://pic1.win4000.com/wallpaper/d/4fceae14904d7.jpg" alt=""/></li>
-        <li><img src="http://pic1.win4000.com/wallpaper/4/4fceae15aa560.jpg" alt=""/></li>
-        <li><img src="http://pic1.win4000.com/wallpaper/9/4fceae1ada3e0.jpg" alt=""/></li>
-        <li><img src="http://pic1.win4000.com/wallpaper/c/4fceae1e53532.jpg" alt=""/></li>
-    </ul>
-    <div id="num"><a href="#">1</a><a href="#">2</a><a href="#">3</a><a href="#">4</a></div>
-</div>
-<script type="text/javascript">
-    /**
-     * Created by lenovo on 14-6-13.
-     */
-    $(function(){
-        var i = 0, j, attr = [],
-            slide = $('#lun'),
-            li = slide.find('li'),
-            img = slide.find('img');
+<p>安装完成之后就可以使用sass了。<br>用记事本或者其他编辑器编辑好sass文件，这里的文件后缀可以有两种:.sass和.scss。学习过程中我们使用的是和CSS类似的语法格式，所以要把文件以.scss结尾。<br>首先学习的是几个常用的命令<br>1.将scss文件（这里以test.scss为例）的内容在CMD中转换为css.</p>
+<figure class="highlight sass"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>sass test<span class="preprocessor">.scss</span>
+</pre></td></tr></table></figure>
 
-        img.css({ width : 500, height : 300});
-        li.css({position : "absolute", left : "0px", top : "0px"});
+<p>2.将scss文件转换为css文件。</p>
+<figure class="highlight sass"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>sass test<span class="preprocessor">.scss</span> test<span class="preprocessor">.css</span>
+</pre></td></tr></table></figure>
 
-        li.hide().eq(0).show();
-        li.each(function(){
-            attr.push($(this));
-        });
+<h2 id="2，语法">2，语法</h2>
+<p>之所以说通过sass可以脱离css苦海，是因为可以通过编程的方式来编写css。这无疑给css的编写提供了很大的便利。<br>sass的语法也很简单，使用sublime-text还可以通过安装sass插件和sass build插件进行代码高亮。在这建议大家使用。<br>首先sass允许使用变量，便利以$开头。</p>
+<figure class="highlight sass"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>$<span class="tag">test</span><span class="pseudo">:blue</span>;
+<span class="tag">body</span><span class="rules">{
+    <span class="rule"><span class="attribute">background</span>:<span class="value">$test</span></span>;
+<span class="rule">}</span></span>
+</pre></td></tr></table></figure>
 
-        function showandhide(){
-            attr[i].show(2000, function(){
-                attr[i].css("display", "block").css("z-index", "-1");
-                var tt = attr.splice(i, 1);
-                // alert(tt);
-                console.log(attr);
-                $.each(attr, function(){
-                    $(this).css("display", "none").css("z-index", "0");
-                });
-                attr.splice(i, 0, tt[0]);
-                console.log(attr);
+<p>sass还允许变量镶嵌在字符串中，但此时需要在变量外面加上#{}。</p>
+<figure class="highlight sass"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre><span class="variable">$test</span><span class="symbol">:left</span>;
+body{
+    border-<span class="comment">#{$test}-radius:5px;</span>
+}
+</pre></td></tr></table></figure>
 
-                i++;
-                if(i == 4)i = 0;
-            });
-        }
+<p>sass同时还可以进行计算：</p>
+<figure class="highlight sass"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre>$<span class="tag">test</span><span class="pseudo">:100</span>;
+<span class="tag">body</span><span class="rules">{
+    <span class="rule"><span class="attribute">margin</span>:<span class="value">(<span class="number">14</span>px/<span class="number">2</span>)</span></span>;
+    <span class="rule"><span class="attribute">top</span>:<span class="value"><span class="number">15</span>px+<span class="number">20</span>px</span></span>;
+    <span class="rule"><span class="attribute">left</span>:<span class="value">$test*<span class="number">10</span>%</span></span>;
+<span class="rule">}</span></span>
+</pre></td></tr></table></figure>
 
-        function lunbo(){
-            return setInterval(function(){
-                showandhide();
-            }, 2500);
-        }
+<p>更有意思的是sass还支持选择器嵌套和属性嵌套：</p>
+<figure class="highlight sass"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="tag">div</span>{
+    <span class="tag">h1</span>{
+        <span class="attribute">color</span><span class="value">:red;</span>
+    }
+}
+<span class="tag">p</span>{
+    <span class="attribute">border</span><span class="value">:{
+        color:red;</span>
+    }
+}
+</pre></td></tr></table></figure>
 
-        var test = lunbo();
-        // clearInterval(test);
-        $("#num a").click(function(){
-            // alert(test);
-            attr[i].stop(true, true);
-            clearInterval(test);
-            //alert($(this).text());
-            i = $(this).text() - 1;
-            showandhide(i);
-            $("#lun")[0].onmouseout = function(){
-                test = lunbo();
-                $("#lun")[0].onmouseout = null;
-            }
-        });
+<p>在嵌套中可以通过&amp;来引用父元素：</p>
+<figure class="highlight sass"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="tag">a</span>{
+    &<span class="pseudo">:hover</span>{
+        <span class="attribute">color</span><span class="value">:red;</span>
+    }
+}
+</pre></td></tr></table></figure>
 
+<p>sass的注释有三种，标准的/<em>注释</em>/，只存在于sass中的//注释，和即便压缩过依然存留的/<em>!重要注释</em>/。<br>今天先看这么多。欲知后事如何请听下回分晓~~~</p>
 
-    });
-
-
-</script>
-</body>
-</html>
       
     </div>
     <footer>
       
         
         
+  
+  <div class="tags">
+    <a href="/tags/sass/">sass</a>, <a href="/tags/CSS/">CSS</a>
+  </div>
+
         <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"></a><a href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a></div>
 <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"��������","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
       
@@ -193,7 +189,7 @@
   }(document, 'script', 'facebook-jssdk'));
 </script>
 
-<div class="fb-comments" data-href="http:chinajs.net/jqimg.html" data-num-posts="5" data-width="840" data-colorscheme="light"></div>
+<div class="fb-comments" data-href="http:chinajs.net/2014/07/09/post12/" data-num-posts="5" data-width="840" data-colorscheme="light"></div>
       
   
 	<div class="ds-thread" data-thread-key="�뽫�˴��滻������������վ���е�ID" data-title="���滻�����µı���" data-url="���滻�����µ���ַ"></div>
